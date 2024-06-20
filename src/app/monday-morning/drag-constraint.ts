@@ -1,4 +1,4 @@
-import { ElementRef, inject, Injector, signal, untracked } from "@angular/core";
+import { ElementRef, signal, untracked } from "@angular/core";
 import { NgtThreeEvent } from "angular-three";
 import {
   injectPointToPoint,
@@ -11,21 +11,19 @@ import { injectCursorRef } from "./cursor";
 export function injectDragConstraint(ref: ElementRef<Object3D>) {
   const cursorRef = injectCursorRef();
   const autoEffect = injectAutoEffect();
-  const injector = inject(Injector);
 
   const api = signal<NgtcConstraintReturn<"PointToPoint">["api"]>(null!);
 
-  autoEffect(() => {
+  autoEffect((injector) => {
     const cursor = cursorRef();
     if (!cursor) return;
 
-    const pointToPoint = injectPointToPoint(cursor, ref, {
-      options: { pivotA: [0, 0, 0], pivotB: [0, 0, 0] },
-      injector,
-      disableOnStart: true,
-    });
-
     untracked(() => {
+      const pointToPoint = injectPointToPoint(cursor, ref, {
+        options: { pivotA: [0, 0, 0], pivotB: [0, 0, 0] },
+        injector,
+        disableOnStart: true,
+      });
       api.set(pointToPoint.api);
     });
   });
