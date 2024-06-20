@@ -1,16 +1,14 @@
-import { Component } from "@angular/core";
-import { RouterOutlet } from "@angular/router";
+import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { MondayMorning } from "./monday-morning/monday-morning";
 
 @Component({
   selector: "app-root",
   standalone: true,
-  imports: [RouterOutlet],
   template: `
-    <h1>Welcome to {{ title }}!</h1>
-
-    <router-outlet />
+    <app-monday-morning />
   `,
-  styles: [],
+  imports: [MondayMorning],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
   title = "ngt-monday-morning";
